@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Craft</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1 {
+    color:#00ff88;
+}
+
+canvas {
+    border:3px solid #7b00ff;
+    background:#87ceeb;
+}
+
+button {
+    padding:10px;
+    margin:5px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🟩 KQ Craft</h1>
+
+<p>
+Kliknij blok aby go zniszczyć.
+Kliknij pustą kratkę aby postawić blok.
+</p>
+
+<canvas id="world" width="600" height="400"></canvas>
+
+<br>
+
+<button onclick="selectBlock('grass')">
+🌱 Trawa
+</button>
+
+<button onclick="selectBlock('stone')">
+🪨 Kamień
+</button>
+
+
+<script>
+
+const canvas=document.getElementById("world");
+const ctx=canvas.getContext("2d");
+
+
+let size=40;
+
+let selected="grass";
+
+
+let world=[];
+
+
+// tworzenie świata
+
+for(let y=0;y<10;y++){
+
+world[y]=[];
+
+for(let x=0;x<15;x++){
+
+if(y>6)
+world[y][x]="grass";
+
+else
+world[y][x]="";
+
+}
+
+}
+
+
+
+function selectBlock(block){
+
+selected=block;
+
+}
+
+
+
+function draw(){
+
+ctx.clearRect(0,0,600,400);
+
+
+for(let y=0;y<10;y++){
+
+for(let x=0;x<15;x++){
+
+
+if(world[y][x]){
+
+
+if(world[y][x]=="grass")
+ctx.fillStyle="#00aa00";
+
+
+if(world[y][x]=="stone")
+ctx.fillStyle="#777";
+
+
+ctx.fillRect(
+x*size,
+y*size,
+size-1,
+size-1
+);
+
+
+}
+
+
+}
+
+}
+
+
+}
+
+
+canvas.onclick=function(e){
+
+let rect=canvas.getBoundingClientRect();
+
+
+let x=Math.floor(
+(e.clientX-rect.left)/size
+);
+
+
+let y=Math.floor(
+(e.clientY-rect.top)/size
+);
+
+
+
+if(world[y][x]){
+
+world[y][x]="";
+
+}
+
+else{
+
+world[y][x]=selected;
+
+}
+
+
+draw();
+
+}
+
+
+
+draw();
+
+
+</script>
+
+
+</body>
+</html>
