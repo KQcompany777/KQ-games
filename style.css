@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #050505, #151515);
+    color: white;
+    text-align: center;
+}
+
+
+header {
+    padding: 40px 20px;
+}
+
+
+h1 {
+    font-size: 45px;
+}
+
+
+h1 span {
+    color: #00ff88;
+    text-shadow: 0 0 15px #00ff88;
+}
+
+
+header p {
+    color: #bbb;
+    font-size: 20px;
+}
+
+
+main {
+    padding: 20px;
+}
+
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+
+.games a {
+    text-decoration: none;
+    color: white;
+    background: #202020;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 0 20px #7b00ff;
+    transition: 0.3s;
+}
+
+
+.games a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #00ff88;
+}
+
+
+.games a:first-letter {
+    font-size: 50px;
+}
+
+
+h3 {
+    font-size: 22px;
+}
+
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    color: #aaa;
+}
