@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Tetris</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1 {
+    color:#00ff88;
+}
+
+canvas {
+    background:#111;
+    border:3px solid #7b00ff;
+    box-shadow:0 0 20px #7b00ff;
+}
+
+button {
+    padding:12px 25px;
+    border:0;
+    border-radius:15px;
+    background:#00ff88;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<h1>🧱 KQ Tetris</h1>
+
+<canvas id="game" width="240" height="400"></canvas>
+
+<h2>
+Wynik: <span id="score">0</span>
+</h2>
+
+<button onclick="restart()">Restart</button>
+
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+const block=20;
+
+let board;
+let piece;
+let score;
+
+
+function reset(){
+
+board=Array.from(
+{length:20},
+()=>Array(12).fill(0)
+);
+
+score=0;
+
+newPiece();
+
+}
+
+
+function newPiece(){
+
+piece={
+x:5,
+y:0,
+shape:[
+[1,1,1],
+[0,1,0]
+]
+};
+
+}
+
+
+function draw(){
+
+ctx.fillStyle="#111";
+ctx.fillRect(0,0,240,400);
+
+
+for(let y=0;y<20;y++){
+
+for(let x=0;x<12;x++){
+
+if(board[y][x]){
+
+ctx.fillStyle="#00ff88";
+ctx.fillRect(
+x*block,
+y*block,
+block-1,
+block-1
+);
+
+}
+
+}
+
+}
+
+
+piece.shape.forEach((row,y)=>{
+
+row.forEach((v,x)=>{
+
+if(v){
+
+ctx.fillStyle="#7b00ff";
+
+ctx.fillRect(
+(piece.x+x)*block,
+(piece.y+y)*block,
+block-1,
+block-1
+);
+
+}
+
+});
+
+});
+
+}
+
+
+function move(){
+
+piece.y++;
+
+
+if(piece.y+piece.shape.length>=20){
+
+place();
+
+}
+
+draw();
+
+}
+
+
+function place(){
+
+piece.shape.forEach((row,y)=>{
+
+row.forEach((v,x)=>{
+
+if(v){
+
+board[piece.y+y][piece.x+x]=1;
+
+}
+
+});
+
+});
+
+
+score+=10;
+
+document.getElementById("score").innerHTML=score;
+
+
+newPiece();
+
+}
+
+
+
+document.addEventListener("keydown",e=>{
+
+if(e.key=="ArrowLeft"){
+piece.x--;
+}
+
+if(e.key=="ArrowRight"){
+piece.x++;
+}
+
+if(e.key=="ArrowDown"){
+move();
+}
+
+if(e.key=="ArrowUp"){
+
+piece.shape.reverse();
+
+}
+
+draw();
+
+});
+
+
+
+function restart(){
+
+reset();
+
+}
+
+
+reset();
+
+setInterval(move,700);
+
+draw();
+
+</script>
+
+
+</body>
+</html>
