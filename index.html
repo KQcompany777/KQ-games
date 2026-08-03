@@ -1,23 +1,64 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>KQ Games</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
+<div class="menu">
+
+<button onclick="openMenu()">
+☰
+</button>
+
+
+<div id="panel">
+
+<a href="index.html">
+🏠 Strona główna
+</a>
+
+<a href="https://www.tiktok.com/" target="_blank">
+🎵 TikTok KQ
+</a>
+
+<a href="#" onclick="help()">
+❓ Pomoc
+</a>
+
+<button onclick="theme()">
+🌙 Jasny / Ciemny
+</button>
+
+</div>
+
+</div>
+
+
+
 <header>
-    <h1>🎮 <span>KQ</span> Games</h1>
-    <p>PIXELS GAMES BY KacrereQ - kacperrr004</p>
+
+<h1>🎮 <span>KQ</span> Games</h1>
+
+<p>Twoja własna platforma gier</p>
+
 </header>
 
 
+
 <main>
+
 
 <h2>Wybierz grę</h2>
 
@@ -49,37 +90,81 @@
 </a>
 
 
+<a href="games/racing.html">
+🚗
+<h3>KQ Racing</h3>
+</a>
+
+
 <a href="games/craft.html">
 🟩
 <h3>KQ Craft</h3>
 </a>
 
 
-<a href="games/racing.html">
-🚗
-<h3>KQ Racing</h3>
-</a>
-
-    
 <a href="games/adventure.html">
 ⭐
 <h3>KQ Adventure</h3>
 </a>
 
-    
-    <a href="games/flappy.html">
+
+<a href="games/flappy.html">
 🐦
 <h3>KQ Flappy</h3>
 </a>
+
+
 </div>
+
 
 </main>
 
 
+
 <footer>
+
 © 2026 KQ Games
+
 </footer>
 
 
+
+<script>
+
+function openMenu(){
+
+let p=document.getElementById("panel");
+
+if(p.style.display=="block")
+p.style.display="none";
+
+else
+p.style.display="block";
+
+}
+
+
+
+function theme(){
+
+document.body.classList.toggle("light");
+
+}
+
+
+
+function help(){
+
+alert(
+"KQ Games 🎮\n\nWybierz grę i baw się dobrze!\nProblemy? Napisz do KQ."
+);
+
+}
+
+
+</script>
+
+
 </body>
+
 </html>
