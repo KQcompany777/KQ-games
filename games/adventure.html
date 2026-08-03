@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Adventure</title>
+
+<style>
+body{
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1{
+    color:#00ff88;
+}
+
+canvas{
+    background:#55aaff;
+    border:3px solid #7b00ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>⭐ KQ Adventure</h1>
+
+<p>⬅️ ➡️ ruch | ⬆️ skok</p>
+
+<canvas id="game" width="700" height="400"></canvas>
+
+<h2>Punkty: <span id="score">0</span></h2>
+
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+
+let player={
+x:50,
+y:300,
+w:35,
+h:35,
+dy:0,
+jump:false
+};
+
+
+let keys={};
+
+let blocks=[
+{x:0,y:350,w:700,h:50},
+{x:250,y:280,w:120,h:20},
+{x:500,y:220,w:120,h:20}
+];
+
+
+let coin={
+x:300,
+y:240,
+taken:false
+};
+
+
+let score=0;
+
+
+document.addEventListener("keydown",e=>{
+keys[e.key]=true;
+});
+
+document.addEventListener("keyup",e=>{
+keys[e.key]=false;
+});
+
+
+function update(){
+
+if(keys["ArrowRight"])
+player.x+=5;
+
+if(keys["ArrowLeft"])
+player.x-=5;
+
+
+if(keys["ArrowUp"] && !player.jump){
+
+player.dy=-12;
+player.jump=true;
+
+}
+
+
+player.dy+=0.5;
+player.y+=player.dy;
+
+
+
+blocks.forEach(b=>{
+
+if(
+player.x<b.x+b.w &&
+player.x+player.w>b.x &&
+player.y+player.h>b.y &&
+player.y+player.h<b.y+20
+){
+
+player.y=b.y-player.h;
+player.dy=0;
+player.jump=false;
+
+}
+
+});
+
+
+
+if(
+!coin.taken &&
+player.x<coin.x+20 &&
+player.x+player.w>coin.x &&
+player.y<coin.y+20 &&
+player.y+player.h>coin.y
+){
+
+coin.taken=true;
+score+=10;
+document.getElementById("score").innerHTML=score;
+
+}
+
+
+draw();
+
+requestAnimationFrame(update);
+
+}
+
+
+
+function draw(){
+
+ctx.clearRect(0,0,700,400);
+
+
+// gracz
+
+ctx.fillStyle="#00ff88";
+ctx.fillRect(player.x,player.y,player.w,player.h);
+
+
+// platformy
+
+ctx.fillStyle="#7b00ff";
+
+blocks.forEach(b=>{
+ctx.fillRect(b.x,b.y,b.w,b.h);
+});
+
+
+// moneta
+
+if(!coin.taken){
+
+ctx.fillStyle="yellow";
+ctx.beginPath();
+ctx.arc(coin.x,coin.y,10,0,Math.PI*2);
+ctx.fill();
+
+}
+
+}
+
+
+update();
+
+</script>
+
+</body>
+</html>
