@@ -79,3 +79,66 @@ footer {
     padding: 20px;
     color: #aaa;
 }
+.menu{
+position:fixed;
+top:20px;
+left:20px;
+z-index:10;
+}
+
+
+.menu button{
+font-size:25px;
+background:#00ff88;
+border:0;
+border-radius:15px;
+padding:10px;
+cursor:pointer;
+}
+
+
+#panel{
+
+display:none;
+
+background:#202020;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:0 0 20px #7b00ff;
+
+}
+
+
+#panel a{
+
+display:block;
+
+color:white;
+
+text-decoration:none;
+
+padding:10px;
+
+}
+
+
+
+.light{
+
+background:#eeeeee;
+
+color:#111;
+
+}
+
+
+.light .games a{
+
+background:white;
+
+color:#111;
+
+}
