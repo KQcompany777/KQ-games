@@ -2,7 +2,6 @@
 <html lang="pl">
 
 <head>
-
 <meta charset="UTF-8">
 <title>KQ Flappy</title>
 
@@ -31,17 +30,15 @@ border:3px solid #7b00ff;
 
 <body>
 
-
 <h1>🐦 KQ Flappy</h1>
 
-<p>Kliknij ekran albo SPACJĘ żeby latać</p>
+<p>Kliknij albo SPACJA żeby latać</p>
 
 <canvas id="game" width="400" height="600"></canvas>
 
 <h2>
 Punkty: <span id="score">0</span>
 </h2>
-
 
 
 <script>
@@ -54,7 +51,7 @@ const ctx=canvas.getContext("2d");
 let bird;
 let pipes;
 let score;
-let game;
+let playing;
 
 
 
@@ -69,16 +66,19 @@ dy:0
 
 
 pipes=[
+
 {
-x:400,
-top:100,
-bottom:350
+x:450,
+gap:220,
+top:150
 }
+
 ];
 
 
 score=0;
-game=true;
+
+playing=true;
 
 }
 
@@ -86,8 +86,11 @@ game=true;
 
 function jump(){
 
-if(game)
-bird.dy=-7;
+if(playing){
+
+bird.dy=-6;
+
+}
 
 }
 
@@ -108,15 +111,19 @@ canvas.onclick=jump;
 function update(){
 
 
-if(!game)return;
+if(!playing)
+return;
+
 
 
 ctx.clearRect(0,0,400,600);
 
 
-// fizyka ptaka
 
-bird.dy+=0.4;
+// fizyka
+
+bird.dy+=0.25;
+
 bird.y+=bird.dy;
 
 
@@ -125,14 +132,13 @@ bird.y+=bird.dy;
 
 pipes.forEach(p=>{
 
-p.x-=3;
-
+p.x-=2;
 
 });
 
 
 
-if(pipes[0].x< -50){
+if(pipes[0].x<-60){
 
 pipes.shift();
 
@@ -148,11 +154,11 @@ if(pipes.length<2){
 
 pipes.push({
 
-x:400,
+x:450,
 
-top:Math.random()*200+50,
+gap:220,
 
-bottom:Math.random()*200+300
+top:Math.random()*180+50
 
 });
 
@@ -160,9 +166,10 @@ bottom:Math.random()*200+300
 
 
 
-// rysowanie ptaka
 
-ctx.fillStyle="#ffff00";
+// ptak
+
+ctx.fillStyle="yellow";
 
 ctx.fillRect(
 bird.x,
@@ -173,7 +180,8 @@ bird.size
 
 
 
-// rysowanie rur
+
+// rury
 
 ctx.fillStyle="#00aa00";
 
@@ -184,39 +192,52 @@ pipes.forEach(p=>{
 ctx.fillRect(
 p.x,
 0,
-50,
+60,
 p.top
 );
 
 
 ctx.fillRect(
 p.x,
-p.bottom,
-50,
+p.top+p.gap,
+60,
 600
 );
 
 
 
+// kolizja
+
 if(
-bird.x<p.x+50 &&
-bird.x+bird.size>p.x &&
+
+bird.x < p.x+60 &&
+
+bird.x+bird.size > p.x &&
+
 (
-bird.y<p.top ||
-bird.y+bird.size>p.bottom
+
+bird.y < p.top ||
+
+bird.y+bird.size > p.top+p.gap
+
 )
+
 ){
 
-end();
+gameOver();
 
 }
+
 
 });
 
 
 
-if(bird.y<0 || bird.y>600)
-end();
+if(bird.y<0 || bird.y>600){
+
+gameOver();
+
+}
 
 
 
@@ -226,16 +247,21 @@ requestAnimationFrame(update);
 
 
 
-function end(){
+function gameOver(){
 
-game=false;
+playing=false;
+
+setTimeout(()=>{
 
 alert(
 "Koniec gry! Wynik: "+score
 );
 
 start();
+
 update();
+
+},100);
 
 }
 
