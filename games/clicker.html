@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Clicker</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1 {
+    color:#00ff88;
+}
+
+button {
+    padding:20px;
+    margin:10px;
+    border:0;
+    border-radius:20px;
+    background:#7b00ff;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+#click {
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:#00ff88;
+    color:black;
+    font-size:30px;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<h1>🖱️ KQ Clicker</h1>
+
+<h2>Punkty: <span id="score">0</span></h2>
+
+
+<button id="click" onclick="clicker()">
+KLIK!
+</button>
+
+
+<h2>Ulepszenie</h2>
+
+<p>
+Koszt: <span id="cost">50</span>
+</p>
+
+<button onclick="upgrade()">
+⚡ Kup ulepszenie
+</button>
+
+
+<script>
+
+let score=0;
+let power=1;
+let cost=50;
+
+
+function clicker(){
+
+score+=power;
+
+update();
+
+}
+
+
+
+function upgrade(){
+
+if(score>=cost){
+
+score-=cost;
+
+power++;
+
+cost*=2;
+
+alert("⚡ Ulepszenie kupione!");
+
+}
+
+else{
+
+alert("❌ Za mało punktów!");
+
+}
+
+update();
+
+}
+
+
+
+function update(){
+
+document.getElementById("score").innerHTML=score;
+
+document.getElementById("cost").innerHTML=cost;
+
+}
+
+
+</script>
+
+
+</body>
+</html>
