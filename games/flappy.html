@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+
+<meta charset="UTF-8">
+<title>KQ Flappy</title>
+
+<style>
+
+body{
+background:#050505;
+color:white;
+text-align:center;
+font-family:Arial;
+}
+
+h1{
+color:#00ff88;
+}
+
+canvas{
+background:#55cfff;
+border:3px solid #7b00ff;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>🐦 KQ Flappy</h1>
+
+<p>Kliknij ekran albo SPACJĘ żeby latać</p>
+
+<canvas id="game" width="400" height="600"></canvas>
+
+<h2>
+Punkty: <span id="score">0</span>
+</h2>
+
+
+
+<script>
+
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+
+let bird;
+let pipes;
+let score;
+let game;
+
+
+
+function start(){
+
+bird={
+x:80,
+y:300,
+size:25,
+dy:0
+};
+
+
+pipes=[
+{
+x:400,
+top:100,
+bottom:350
+}
+];
+
+
+score=0;
+game=true;
+
+}
+
+
+
+function jump(){
+
+if(game)
+bird.dy=-7;
+
+}
+
+
+
+document.addEventListener("keydown",e=>{
+
+if(e.code=="Space")
+jump();
+
+});
+
+
+canvas.onclick=jump;
+
+
+
+function update(){
+
+
+if(!game)return;
+
+
+ctx.clearRect(0,0,400,600);
+
+
+// fizyka ptaka
+
+bird.dy+=0.4;
+bird.y+=bird.dy;
+
+
+
+// rury
+
+pipes.forEach(p=>{
+
+p.x-=3;
+
+
+});
+
+
+
+if(pipes[0].x< -50){
+
+pipes.shift();
+
+score++;
+
+document.getElementById("score").innerHTML=score;
+
+}
+
+
+
+if(pipes.length<2){
+
+pipes.push({
+
+x:400,
+
+top:Math.random()*200+50,
+
+bottom:Math.random()*200+300
+
+});
+
+}
+
+
+
+// rysowanie ptaka
+
+ctx.fillStyle="#ffff00";
+
+ctx.fillRect(
+bird.x,
+bird.y,
+bird.size,
+bird.size
+);
+
+
+
+// rysowanie rur
+
+ctx.fillStyle="#00aa00";
+
+
+pipes.forEach(p=>{
+
+
+ctx.fillRect(
+p.x,
+0,
+50,
+p.top
+);
+
+
+ctx.fillRect(
+p.x,
+p.bottom,
+50,
+600
+);
+
+
+
+if(
+bird.x<p.x+50 &&
+bird.x+bird.size>p.x &&
+(
+bird.y<p.top ||
+bird.y+bird.size>p.bottom
+)
+){
+
+end();
+
+}
+
+});
+
+
+
+if(bird.y<0 || bird.y>600)
+end();
+
+
+
+requestAnimationFrame(update);
+
+}
+
+
+
+function end(){
+
+game=false;
+
+alert(
+"Koniec gry! Wynik: "+score
+);
+
+start();
+update();
+
+}
+
+
+
+start();
+
+update();
+
+
+</script>
+
+
+</body>
+
+</html>
