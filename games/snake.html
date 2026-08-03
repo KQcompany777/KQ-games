@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Snake</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1 {
+    color:#00ff88;
+}
+
+canvas {
+    background:#111;
+    border:3px solid #7b00ff;
+    box-shadow:0 0 20px #7b00ff;
+}
+
+button {
+    margin-top:20px;
+    padding:12px 25px;
+    border:0;
+    border-radius:15px;
+    background:#00ff88;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>🐍 KQ Snake</h1>
+
+<p>Zdobywaj punkty i pobij rekord!</p>
+
+
+<canvas id="game" width="400" height="400"></canvas>
+
+
+<h2>
+Wynik: <span id="score">0</span>
+</h2>
+
+
+<button onclick="restart()">
+Restart
+</button>
+
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+
+let snake;
+let food;
+let dx;
+let dy;
+let score;
+
+
+function start(){
+
+snake=[
+{x:200,y:200}
+];
+
+food={
+x:100,
+y:100
+};
+
+dx=20;
+dy=0;
+
+score=0;
+
+}
+
+
+function draw(){
+
+ctx.fillStyle="#111";
+ctx.fillRect(0,0,400,400);
+
+
+ctx.fillStyle="#00ff88";
+
+snake.forEach(part=>{
+ctx.fillRect(part.x,part.y,18,18);
+});
+
+
+ctx.fillStyle="#7b00ff";
+ctx.fillRect(food.x,food.y,18,18);
+
+
+
+let head={
+x:snake[0].x+dx,
+y:snake[0].y+dy
+};
+
+
+snake.unshift(head);
+
+
+if(head.x==food.x && head.y==food.y){
+
+score++;
+
+document.getElementById("score").innerHTML=score;
+
+food={
+x:Math.floor(Math.random()*20)*20,
+y:Math.floor(Math.random()*20)*20
+};
+
+}else{
+
+snake.pop();
+
+}
+
+
+if(
+head.x<0 ||
+head.x>=400 ||
+head.y<0 ||
+head.y>=400
+){
+
+alert("Koniec gry! Wynik: "+score);
+
+start();
+
+}
+
+
+}
+
+
+document.addEventListener("keydown",e=>{
+
+if(e.key=="ArrowUp"){
+dx=0;
+dy=-20;
+}
+
+if(e.key=="ArrowDown"){
+dx=0;
+dy=20;
+}
+
+if(e.key=="ArrowLeft"){
+dx=-20;
+dy=0;
+}
+
+if(e.key=="ArrowRight"){
+dx=20;
+dy=0;
+}
+
+});
+
+
+function restart(){
+
+start();
+
+}
+
+
+start();
+
+setInterval(draw,120);
+
+
+</script>
+
+
+</body>
+
+</html>
