@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KQ Racing</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1 {
+    color:#00ff88;
+}
+
+canvas {
+    background:#222;
+    border:3px solid #7b00ff;
+    box-shadow:0 0 20px #7b00ff;
+}
+
+button {
+    padding:12px 25px;
+    background:#00ff88;
+    border:0;
+    border-radius:15px;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🚗 KQ Racing</h1>
+
+<p>Strzałki ← → sterują autem</p>
+
+<canvas id="game" width="300" height="500"></canvas>
+
+<h2>
+Punkty: <span id="score">0</span>
+</h2>
+
+<button onclick="restart()">Restart</button>
+
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+
+let car;
+let enemy;
+let score;
+let speed;
+let playing;
+
+
+
+function start(){
+
+car={
+x:130,
+y:420,
+w:40,
+h:70
+};
+
+
+enemy={
+x:Math.random()*260,
+y:-100,
+w:40,
+h:70
+};
+
+
+score=0;
+speed=4;
+playing=true;
+
+}
+
+
+
+document.addEventListener("keydown",e=>{
+
+if(e.key=="ArrowLeft" && car.x>0){
+car.x-=20;
+}
+
+
+if(e.key=="ArrowRight" && car.x<260){
+car.x+=20;
+}
+
+});
+
+
+
+function draw(){
+
+
+ctx.fillStyle="#333";
+ctx.fillRect(0,0,300,500);
+
+
+// droga
+
+ctx.fillStyle="#555";
+ctx.fillRect(50,0,200,500);
+
+
+// auto gracza
+
+ctx.fillStyle="#00ff88";
+ctx.fillRect(
+car.x,
+car.y,
+car.w,
+car.h
+);
+
+
+// przeciwnik
+
+ctx.fillStyle="#ff0055";
+
+ctx.fillRect(
+enemy.x,
+enemy.y,
+enemy.w,
+enemy.h
+);
+
+
+
+enemy.y+=speed;
+
+
+if(enemy.y>500){
+
+enemy.y=-100;
+enemy.x=Math.random()*260;
+
+score++;
+
+speed+=0.2;
+
+document.getElementById("score").innerHTML=score;
+
+}
+
+
+
+if(
+car.x < enemy.x+enemy.w &&
+car.x+car.w > enemy.x &&
+car.y < enemy.y+enemy.h &&
+car.y+car.h > enemy.y
+){
+
+alert("Koniec wyścigu! Wynik: "+score);
+
+start();
+
+}
+
+
+}
+
+
+
+function loop(){
+
+if(playing)
+draw();
+
+requestAnimationFrame(loop);
+
+}
+
+
+
+function restart(){
+
+start();
+
+}
+
+
+start();
+
+loop();
+
+</script>
+
+</body>
+</html>
